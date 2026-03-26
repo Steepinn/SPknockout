@@ -1,0 +1,16 @@
+name: SPknockout
+version: '${version}'
+main: ru.knockout.plugin.KnockoutPlugin
+api-version: '1.21'
+description: Нокаут, спасение, самоподъём и админ-команда
+commands:
+  die:
+    description: Сдаться в нокауте (смерть и выпадение лута)
+    usage: /die
+  knockout:
+    description: Управление плагином нокаута
+    usage: /knockout reload
+permissions:
+  knockout.admin.reload:
+    description: Разрешает перезагружать конфиг нокаута
+    default: op

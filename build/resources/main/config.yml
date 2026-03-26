@@ -1,0 +1,73 @@
+language:
+  locale: en # en or ru
+
+knockout:
+  any-lethal-triggers-knockout: true
+  repeat-knockout-cooldown-seconds: 60 # only after revive; cleared on any death
+  duration-seconds: 60
+  rescue-seconds: 10
+  horizontal-rescue-radius: 1.75
+  rescuer-min-y-offset: -0.35
+  allow-environmental-damage-while-knocked: false
+  allow-mob-knockout: false
+  allow-finisher-hit: false
+  team-only-rescue: false
+  post-revive-invulnerability-seconds: 0
+  crawl:
+    enabled: true
+    slowness-amplifier: 3
+    pose: CRAWLING
+  self-revive:
+    enabled: true
+    chance: 0.25
+    chances:
+      healing: 0.25
+      regeneration: 0.25
+    consume-potion: true
+  revive-health:
+    mode: percent-max
+    value: 0.45
+    minimum-hearts: 3.0
+  effects:
+    slowness:
+      amplifier: 6
+      refresh-duration-ticks: 100
+    blindness:
+      amplifier: 0
+      refresh-duration-ticks: 100
+
+messages:
+  only-players: "&cPlayers only."
+  no-permission: "&cYou do not have permission."
+  not-knocked: "&cYou are not knocked out."
+  reload-success: "&aSPknockout config reloaded."
+  self-revive-success: "&aYour healing potion worked, you recovered!"
+  knockout-title: "&cYou are knocked out!"
+  knockout-subtitle: "&7You can surrender with /die"
+  rescue-reset-title: "&cYou are knocked out!"
+  rescue-reset-subtitle: "&7You can surrender with /die"
+  rescue-progress-title: "&bRecovery: {percent}%"
+  rescue-progress-subtitle: "&7Do not move..."
+  rescuer-actionbar: "&aRescue: {percent}%"
+  revived-title: "&aYou are back up!"
+
+visuals:
+  rescue-particles:
+    enabled: true
+    particle: HEART
+    every-ticks: 5
+    count: 2
+    offset-x: 0.25
+    offset-y: 0.12
+    offset-z: 0.25
+    y-add: 0.35
+
+sounds:
+  revive:
+    enabled: true
+    sound: ENTITY_PLAYER_LEVELUP
+    volume: 0.5
+    pitch: 1.2
+
+admin:
+  reload-permission: "knockout.admin.reload"

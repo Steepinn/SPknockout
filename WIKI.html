@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SPknockout Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0b0f14;
+      --bg-surface: #121922;
+      --bg-elevated: #1a2330;
+      --border: rgba(120, 162, 200, 0.12);
+      --text: #e8eef4;
+      --text-muted: #8fa3b8;
+      --accent: #3dd9c3;
+      --accent-dim: rgba(61, 217, 195, 0.15);
+      --accent-glow: rgba(61, 217, 195, 0.35);
+      --warn: #f0b429;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --font-sans: "Outfit", system-ui, -apple-system, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+      --shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-sans);
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse 120% 80% at 50% -20%, rgba(61, 217, 195, 0.08), transparent 50%),
+        radial-gradient(ellipse 60% 40% at 100% 50%, rgba(80, 120, 200, 0.06), transparent),
+        var(--bg-deep);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 820px) minmax(0, 1fr);
+      gap: 0 2rem;
+    }
+
+    .hero {
+      grid-column: 1 / -1;
+      padding: 3rem 1.5rem 2.5rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--bg-surface) 0%, transparent 100%);
+    }
+    .hero-inner { max-width: 640px; margin: 0 auto; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid rgba(61, 217, 195, 0.25);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      margin: 0 0 0.75rem;
+      font-size: clamp(1.85rem, 4vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    .hero p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .shell {
+      grid-column: 2;
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 2.5rem;
+      padding: 2rem 1.5rem 4rem;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .shell { grid-column: 1 / -1; grid-template-columns: 1fr; padding: 1.5rem 1rem 3rem; }
+    }
+
+    nav.toc {
+      position: sticky;
+      top: 1.25rem;
+      padding: 1.1rem 1rem;
+      border-radius: var(--radius);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    @media (max-width: 900px) {
+      nav.toc { position: static; }
+    }
+    nav.toc strong {
+      display: block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 0.85rem;
+    }
+    nav.toc a {
+      display: block;
+      padding: 0.4rem 0.5rem;
+      margin: 0 -0.25rem;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.15s, background 0.15s;
+    }
+    nav.toc a:hover {
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    main { min-width: 0; }
+
+    section {
+      margin-bottom: 2.75rem;
+      padding: 1.75rem 1.75rem 1.5rem;
+      border-radius: var(--radius);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+    section h2 {
+      margin: 0 0 1.1rem;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    section h2 .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--bg-deep);
+      background: linear-gradient(135deg, var(--accent), #2ab8a5);
+    }
+    section h3 {
+      margin: 1.5rem 0 0.75rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    section h4 {
+      margin: 1.25rem 0 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    section p { margin: 0 0 1rem; color: var(--text-muted); }
+    section p:last-child { margin-bottom: 0; }
+
+    ul, ol { margin: 0 0 1rem; padding-left: 1.35rem; color: var(--text-muted); }
+    li { margin-bottom: 0.45rem; }
+    li::marker { color: var(--accent); }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      padding: 0.15em 0.45em;
+      border-radius: 6px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: #c5e8ff;
+    }
+
+    pre {
+      margin: 1rem 0 0;
+      padding: 1.1rem 1.2rem;
+      border-radius: var(--radius-sm);
+      background: #0d1117;
+      border: 1px solid var(--border);
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: #a8d4c8;
+    }
+
+    .note {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--warn);
+      background: rgba(240, 180, 41, 0.08);
+      color: #d4c4a0;
+      font-size: 0.95rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+    }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .example-grid {
+      display: grid;
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+    @media (min-width: 640px) {
+      .example-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .example-card {
+      padding: 1rem 1.1rem;
+      border-radius: var(--radius-sm);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+    }
+    .example-card h3 { margin: 0 0 0.75rem; font-size: 0.95rem; }
+
+    footer {
+      grid-column: 1 / -1;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <header class="hero">
+      <div class="hero-inner">
+        <span class="badge">Paper 1.21 · Steepin, SteepStudio</span>
+        <h1>SPknockout</h1>
+        <p>Knockout from lethal damage, rescue, self-revive, repeat-knockout cooldown, and a fully configurable <code>config.yml</code>.</p>
+      </div>
+    </header>
+
+    <div class="shell">
+      <nav class="toc" aria-label="Table of contents">
+        <strong>Sections</strong>
+        <a href="#intro">Overview</a>
+        <a href="#commands">Commands</a>
+        <a href="#install">Installation</a>
+        <a href="#config">config.yml</a>
+        <a href="#examples">Examples</a>
+        <a href="#trouble">Troubleshooting</a>
+      </nav>
+
+      <main>
+        <section id="intro">
+          <h2><span class="num">1</span> What the plugin does</h2>
+          <p><code>SPknockout</code> turns <strong>any</strong> lethal hit into knockout first when <code>any-lethal-triggers-knockout</code> is enabled (lava, void, mobs, players, etc.).</p>
+          <ul>
+            <li>the player enters knockout instead of dying immediately;</li>
+            <li>an ally can revive them by sneaking nearby;</li>
+            <li>a knocked-out player can surrender with <code>/die</code>;</li>
+            <li>if nobody revives them in time, they die;</li>
+            <li><strong>Quit while knocked out</strong> = same as <code>/die</code> (real death, loot, respawn).</li>
+            <li><strong>Crawl mode</strong> (optional) — slow movement on the ground with a crawl pose while knocked out.</li>
+            <li><strong>Repeat cooldown</strong> only after someone <strong>revives</strong> you (or self-revive) — blocked from another knockout for <code>repeat-knockout-cooldown-seconds</code>. <strong>Any death</strong> clears this; after respawn you can be knocked out again.</li>
+          </ul>
+        </section>
+
+        <section id="commands">
+          <h2><span class="num">2</span> Commands</h2>
+          <ul>
+            <li><code>/die</code> — only while knocked out; ends knockout with death.</li>
+            <li><code>/knockout reload</code> — reloads <code>config.yml</code> without restarting. Permission: <code>admin.reload-permission</code> (default <code>knockout.admin.reload</code>).</li>
+          </ul>
+        </section>
+
+        <section id="install">
+          <h2><span class="num">3</span> Installation</h2>
+          <ol>
+            <li>Copy the jar into the <code>plugins</code> folder.</li>
+            <li>Start the server.</li>
+            <li>Confirm <code>plugins/SPknockout/config.yml</code> was created.</li>
+            <li>Edit <code>config.yml</code> for your server.</li>
+            <li>Restart the server or run <code>/knockout reload</code>.</li>
+          </ol>
+        </section>
+
+        <section id="config">
+          <h2><span class="num">4</span> Full config.yml reference</h2>
+
+          <h3>language</h3>
+          <ul>
+            <li><code>locale</code> — built-in message language: <code>en</code> or <code>ru</code>.</li>
+            <li>Default is English (<code>en</code>).</li>
+            <li>Override any string under <code>messages</code> manually if needed.</li>
+          </ul>
+
+          <h3>knockout</h3>
+          <ul>
+            <li><code>any-lethal-triggers-knockout</code> — any lethal damage can trigger knockout (when not on repeat cooldown). If <code>false</code>, only player/mob entity hits use <code>allow-mob-knockout</code>; environmental kills skip knockout.</li>
+            <li><code>repeat-knockout-cooldown-seconds</code> — lockout only after a <strong>successful revive</strong>. Death clears it. <code>0</code> disables.</li>
+            <li><code>crawl.enabled</code> — crawl pose + lighter slowness so knocked-out players can move.</li>
+            <li><code>crawl.slowness-amplifier</code> — slowness while crawling (used when crawl is enabled).</li>
+            <li><code>crawl.pose</code> — Bukkit pose, e.g. <code>CRAWLING</code> (falls back to <code>SWIMMING</code> if invalid).</li>
+            <li><code>duration-seconds</code> — knockout duration before automatic death.</li>
+            <li><code>rescue-seconds</code> — time for a full revive.</li>
+            <li><code>horizontal-rescue-radius</code> — rescuer detection radius.</li>
+            <li><code>rescuer-min-y-offset</code> — minimum vertical offset for rescuer.</li>
+            <li><code>allow-environmental-damage-while-knocked</code> — environmental damage in knockout.</li>
+            <li><code>allow-mob-knockout</code> — mobs can trigger knockout.</li>
+            <li><code>allow-finisher-hit</code> — players can finish knocked-out targets with hits.</li>
+            <li><code>team-only-rescue</code> — only same scoreboard team can rescue.</li>
+            <li><code>post-revive-invulnerability-seconds</code> — invulnerability after revive.</li>
+          </ul>
+
+          <h4>knockout.self-revive</h4>
+          <ul>
+            <li><code>enabled</code> — enable self-revive roll.</li>
+            <li><code>chance</code> — base chance (e.g. <code>0.25</code> = 25%).</li>
+            <li><code>chances.healing</code> / <code>chances.regeneration</code> — per-potion-type chances.</li>
+            <li><code>consume-potion</code> — consume a potion on success.</li>
+          </ul>
+          <div class="note">Requires a potion with base type <code>HEALING</code> or <code>REGENERATION</code> in inventory.</div>
+
+          <h4>knockout.revive-health</h4>
+          <ul>
+            <li><code>mode</code>: <code>percent-max</code> or <code>fixed</code>.</li>
+            <li><code>value</code>: for percent-max — fraction of max HP (0.0–1.0); for fixed — HP.</li>
+            <li><code>minimum-hearts</code> — minimum hearts after revive.</li>
+          </ul>
+
+          <h4>knockout.effects</h4>
+          <ul>
+            <li><code>slowness.amplifier</code>, <code>slowness.refresh-duration-ticks</code></li>
+            <li><code>blindness.amplifier</code>, <code>blindness.refresh-duration-ticks</code></li>
+          </ul>
+
+          <h3>messages</h3>
+          <p>Use <code>&amp;</code> color codes and <code>{percent}</code> for progress.</p>
+          <div class="tag-row">
+            <span class="tag">only-players</span>
+            <span class="tag">no-permission</span>
+            <span class="tag">not-knocked</span>
+            <span class="tag">reload-success</span>
+            <span class="tag">self-revive-success</span>
+            <span class="tag">knockout-title</span>
+            <span class="tag">knockout-subtitle</span>
+            <span class="tag">rescue-reset-title</span>
+            <span class="tag">rescue-reset-subtitle</span>
+            <span class="tag">rescue-progress-title</span>
+            <span class="tag">rescue-progress-subtitle</span>
+            <span class="tag">rescuer-actionbar</span>
+            <span class="tag">revived-title</span>
+          </div>
+
+          <h3>visuals.rescue-particles</h3>
+          <ul>
+            <li><code>enabled</code>, <code>particle</code>, <code>every-ticks</code>, <code>count</code></li>
+            <li><code>offset-x</code>, <code>offset-y</code>, <code>offset-z</code>, <code>y-add</code></li>
+          </ul>
+
+          <h3>sounds.revive</h3>
+          <ul>
+            <li><code>enabled</code>, <code>sound</code>, <code>volume</code>, <code>pitch</code></li>
+          </ul>
+
+          <h3>admin</h3>
+          <ul>
+            <li><code>reload-permission</code> — permission for <code>/knockout reload</code>.</li>
+          </ul>
+        </section>
+
+        <section id="examples">
+          <h2><span class="num">5</span> Example configs</h2>
+          <div class="example-grid">
+            <div class="example-card">
+              <h3>Hardcore</h3>
+              <pre>knockout:
+  duration-seconds: 25
+  rescue-seconds: 14
+  horizontal-rescue-radius: 1.4
+  allow-environmental-damage-while-knocked: true
+  revive-health:
+    mode: percent-max
+    value: 0.30
+    minimum-hearts: 2.0</pre>
+            </div>
+            <div class="example-card">
+              <h3>Casual</h3>
+              <pre>knockout:
+  duration-seconds: 90
+  rescue-seconds: 7
+  horizontal-rescue-radius: 2.2
+  allow-environmental-damage-while-knocked: false
+  revive-health:
+    mode: percent-max
+    value: 0.60
+    minimum-hearts: 4.0</pre>
+            </div>
+          </div>
+        </section>
+
+        <section id="trouble">
+          <h2><span class="num">6</span> Troubleshooting</h2>
+          <ul>
+            <li>Knockout does not trigger — check damage source and plugin startup logs.</li>
+            <li><code>/die</code> does nothing — only works while knocked out; command may be overridden.</li>
+            <li><code>/knockout reload</code> — check <code>admin.reload-permission</code> and OP.</li>
+            <li>Rescue stuck — radius, rescuer sneaking, <code>rescuer-min-y-offset</code>, <code>team-only-rescue</code>.</li>
+            <li>No particles/sound — check <code>visuals</code> / <code>sounds</code> and valid Bukkit names.</li>
+            <li>Self-revive never fires — HEALING/REGENERATION potions and <code>chance</code> / <code>chances.*</code>.</li>
+          </ul>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      <strong>SPknockout</strong> documentation · <span>Steepin, SteepStudio</span><br>
+      Open this file in a browser: <code>WIKI.html</code> in the plugin folder.
+    </footer>
+  </div>
+</body>
+</html>
