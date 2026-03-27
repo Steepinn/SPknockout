@@ -17,6 +17,7 @@
 
 - `/die` — only while knocked out; ends knockout with death.
 - `/knockout reload` — reloads `config.yml` without restarting the server.
+- `/recovery <player>` — admin command; instantly revives the specified knocked-out player.
 
 ## 3) Installation
 
@@ -92,6 +93,11 @@ All strings support `&` color codes and `{percent}` for progress:
 - `no-permission`
 - `not-knocked`
 - `reload-success`
+- `recovery-usage`
+- `recovery-target-not-found`
+- `recovery-target-not-knocked`
+- `recovery-target-recovered`
+- `recovery-admin-success`
 - `self-revive-success`
 - `knockout-title`
 - `knockout-subtitle`
@@ -121,6 +127,7 @@ All strings support `&` color codes and `{percent}` for progress:
 ### admin
 
 - `reload-permission` — permission for `/knockout reload`.
+- `recovery-permission` — permission for `/recovery <player>`.
 
 ## 5) Example configs
 
@@ -157,6 +164,7 @@ knockout:
 - Knockout does not trigger — check damage source (player / projectile) and plugin startup errors.
 - `/die` does nothing — only works while knocked out; another plugin may override the command.
 - `/knockout reload` fails — check `admin.reload-permission` and OP.
+- `/recovery` fails — check `admin.recovery-permission`, player nickname, and that target is actually in knockout.
 - Rescue does not progress — rescuer must sneak, be in radius; check `horizontal-rescue-radius`, `rescuer-min-y-offset`, `team-only-rescue`.
 - Broken message colors — use `&a`, `&c`, `&7`, etc. in `messages`.
 - No particles/sound — check `visuals.rescue-particles.enabled`, `sounds.revive.enabled`, and valid Bukkit names.

@@ -42,6 +42,11 @@ public final class KnockoutConfig {
     final Component notKnockedMessage;
     final Component noPermissionMessage;
     final Component reloadSuccessMessage;
+    final Component recoveryUsageMessage;
+    final Component recoveryTargetNotFoundMessage;
+    final Component recoveryTargetNotKnockedMessage;
+    final Component recoveryTargetRecoveredMessage;
+    final Component recoveryAdminSuccessMessage;
     final Component selfReviveSuccessMessage;
     final Component knockoutTitle;
     final Component knockoutSubtitle;
@@ -64,6 +69,7 @@ public final class KnockoutConfig {
     final float reviveSoundVolume;
     final float reviveSoundPitch;
     final String reloadPermission;
+    final String recoveryPermission;
     final PotionType[] selfRevivePotionTypes;
     final String locale;
 
@@ -98,6 +104,11 @@ public final class KnockoutConfig {
             Component notKnockedMessage,
             Component noPermissionMessage,
             Component reloadSuccessMessage,
+            Component recoveryUsageMessage,
+            Component recoveryTargetNotFoundMessage,
+            Component recoveryTargetNotKnockedMessage,
+            Component recoveryTargetRecoveredMessage,
+            Component recoveryAdminSuccessMessage,
             Component selfReviveSuccessMessage,
             Component knockoutTitle,
             Component knockoutSubtitle,
@@ -120,6 +131,7 @@ public final class KnockoutConfig {
             float reviveSoundVolume,
             float reviveSoundPitch,
             String reloadPermission,
+            String recoveryPermission,
             PotionType[] selfRevivePotionTypes,
             String locale) {
         this.knockoutTicks = knockoutTicks;
@@ -152,6 +164,11 @@ public final class KnockoutConfig {
         this.notKnockedMessage = notKnockedMessage;
         this.noPermissionMessage = noPermissionMessage;
         this.reloadSuccessMessage = reloadSuccessMessage;
+        this.recoveryUsageMessage = recoveryUsageMessage;
+        this.recoveryTargetNotFoundMessage = recoveryTargetNotFoundMessage;
+        this.recoveryTargetNotKnockedMessage = recoveryTargetNotKnockedMessage;
+        this.recoveryTargetRecoveredMessage = recoveryTargetRecoveredMessage;
+        this.recoveryAdminSuccessMessage = recoveryAdminSuccessMessage;
         this.selfReviveSuccessMessage = selfReviveSuccessMessage;
         this.knockoutTitle = knockoutTitle;
         this.knockoutSubtitle = knockoutSubtitle;
@@ -174,6 +191,7 @@ public final class KnockoutConfig {
         this.reviveSoundVolume = reviveSoundVolume;
         this.reviveSoundPitch = reviveSoundPitch;
         this.reloadPermission = reloadPermission;
+        this.recoveryPermission = recoveryPermission;
         this.selfRevivePotionTypes = selfRevivePotionTypes;
         this.locale = locale;
     }
@@ -226,6 +244,11 @@ public final class KnockoutConfig {
         Component notKnocked = deserialize(message(cfg, locale, "not-knocked"));
         Component noPermission = deserialize(message(cfg, locale, "no-permission"));
         Component reloadSuccess = deserialize(message(cfg, locale, "reload-success"));
+        Component recoveryUsage = deserialize(message(cfg, locale, "recovery-usage"));
+        Component recoveryTargetNotFound = deserialize(message(cfg, locale, "recovery-target-not-found"));
+        Component recoveryTargetNotKnocked = deserialize(message(cfg, locale, "recovery-target-not-knocked"));
+        Component recoveryTargetRecovered = deserialize(message(cfg, locale, "recovery-target-recovered"));
+        Component recoveryAdminSuccess = deserialize(message(cfg, locale, "recovery-admin-success"));
         Component selfReviveSuccess = deserialize(message(cfg, locale, "self-revive-success"));
         Component knockoutTitle = deserialize(message(cfg, locale, "knockout-title"));
         Component knockoutSubtitle = deserialize(message(cfg, locale, "knockout-subtitle"));
@@ -250,6 +273,7 @@ public final class KnockoutConfig {
         float reviveSoundVolume = (float) Math.max(0.0, cfg.getDouble("sounds.revive.volume", 0.5));
         float reviveSoundPitch = (float) Math.max(0.0, cfg.getDouble("sounds.revive.pitch", 1.2));
         String reloadPermission = cfg.getString("admin.reload-permission", "knockout.admin.reload");
+        String recoveryPermission = cfg.getString("admin.recovery-permission", "knockout.admin.recovery");
         PotionType[] selfRevivePotionTypes = new PotionType[] {PotionType.HEALING, PotionType.REGENERATION};
 
         return new KnockoutConfig(
@@ -283,6 +307,11 @@ public final class KnockoutConfig {
                 notKnocked,
                 noPermission,
                 reloadSuccess,
+                recoveryUsage,
+                recoveryTargetNotFound,
+                recoveryTargetNotKnocked,
+                recoveryTargetRecovered,
+                recoveryAdminSuccess,
                 selfReviveSuccess,
                 knockoutTitle,
                 knockoutSubtitle,
@@ -305,6 +334,7 @@ public final class KnockoutConfig {
                 reviveSoundVolume,
                 reviveSoundPitch,
                 reloadPermission,
+                recoveryPermission,
                 selfRevivePotionTypes,
                 locale);
     }
@@ -325,6 +355,21 @@ public final class KnockoutConfig {
             case "not-knocked" -> ru ? "&cВы не в нокауте." : "&cYou are not knocked out.";
             case "no-permission" -> ru ? "&cНедостаточно прав." : "&cYou do not have permission.";
             case "reload-success" -> ru ? "&aКонфиг SPknockout перезагружен." : "&aSPknockout config reloaded.";
+            case "recovery-usage" -> ru
+                    ? "&eИспользование: /recovery <ник>"
+                    : "&eUsage: /recovery <player>";
+            case "recovery-target-not-found" -> ru
+                    ? "&cИгрок не найден или офлайн."
+                    : "&cPlayer not found or offline.";
+            case "recovery-target-not-knocked" -> ru
+                    ? "&cЭтот игрок не в нокауте."
+                    : "&cThat player is not knocked out.";
+            case "recovery-target-recovered" -> ru
+                    ? "&aАдминистратор поднял вас из нокаута."
+                    : "&aAn administrator recovered you from knockout.";
+            case "recovery-admin-success" -> ru
+                    ? "&aИгрок успешно поднят из нокаута."
+                    : "&aPlayer has been recovered from knockout.";
             case "self-revive-success" -> ru
                     ? "&aЗелье восстановления сработало, вы пришли в себя!"
                     : "&aYour healing potion worked, you recovered!";

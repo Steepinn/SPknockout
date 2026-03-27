@@ -50,6 +50,11 @@ messages:
   rescue-progress-subtitle: "&7Do not move..."
   rescuer-actionbar: "&aRescue: {percent}%"
   revived-title: "&aYou are back up!"
+  recovery-usage: "&eUsage: /recovery <player>"
+  recovery-target-not-found: "&cPlayer not found or offline."
+  recovery-target-not-knocked: "&cThat player is not knocked out."
+  recovery-target-recovered: "&aAn administrator recovered you from knockout."
+  recovery-admin-success: "&aPlayer has been recovered from knockout."
 
 visuals:
   rescue-particles:
@@ -71,3 +76,4 @@ sounds:
 
 admin:
   reload-permission: "knockout.admin.reload"
+  recovery-permission: "knockout.admin.recovery"

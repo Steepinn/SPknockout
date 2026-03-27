@@ -10,7 +10,13 @@ commands:
   knockout:
     description: Управление плагином нокаута
     usage: /knockout reload
+  recovery:
+    description: Мгновенно поднять игрока из нокаута (админ)
+    usage: /recovery <player>
 permissions:
   knockout.admin.reload:
     description: Разрешает перезагружать конфиг нокаута
+    default: op
+  knockout.admin.recovery:
+    description: Разрешает поднимать игроков из нокаута командой recovery
     default: op

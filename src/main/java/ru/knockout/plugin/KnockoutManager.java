@@ -135,6 +135,15 @@ public final class KnockoutManager {
         victim.setHealth(0);
     }
 
+    public boolean recoveryCommand(Player victim) {
+        KnockoutState state = byVictim.get(victim.getUniqueId());
+        if (state == null) {
+            return false;
+        }
+        revive(victim, state);
+        return true;
+    }
+
     public void removeAndForget(Player victim) {
         KnockoutState state = byVictim.remove(victim.getUniqueId());
         if (state != null && state.timeoutTask != null) {

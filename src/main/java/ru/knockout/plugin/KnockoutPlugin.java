@@ -31,6 +31,12 @@ public final class KnockoutPlugin extends JavaPlugin implements CommandExecutor 
         } else {
             getLogger().severe("Команда knockout не объявлена в plugin.yml");
         }
+        var recovery = getCommand("recovery");
+        if (recovery != null) {
+            recovery.setExecutor(this);
+        } else {
+            getLogger().severe("Команда recovery не объявлена в plugin.yml");
+        }
 
         new BukkitRunnable() {
             @Override
@@ -48,7 +54,29 @@ public final class KnockoutPlugin extends JavaPlugin implements CommandExecutor 
             @NotNull String[] args) {
         if (!command.getName().equalsIgnoreCase("die")) {
             if (!command.getName().equalsIgnoreCase("knockout")) {
-                return false;
+                if (!command.getName().equalsIgnoreCase("recovery")) {
+                    return false;
+                }
+                if (!sender.hasPermission(knockoutConfig.recoveryPermission)) {
+                    sender.sendMessage(knockoutConfig.noPermissionMessage);
+                    return true;
+                }
+                if (args.length != 1) {
+                    sender.sendMessage(knockoutConfig.recoveryUsageMessage);
+                    return true;
+                }
+                Player target = getServer().getPlayerExact(args[0]);
+                if (target == null || !target.isOnline()) {
+                    sender.sendMessage(knockoutConfig.recoveryTargetNotFoundMessage);
+                    return true;
+                }
+                if (!manager.recoveryCommand(target)) {
+                    sender.sendMessage(knockoutConfig.recoveryTargetNotKnockedMessage);
+                    return true;
+                }
+                sender.sendMessage(knockoutConfig.recoveryAdminSuccessMessage);
+                target.sendMessage(knockoutConfig.recoveryTargetRecoveredMessage);
+                return true;
             }
             if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
                 if (!sender.hasPermission(knockoutConfig.reloadPermission)) {
